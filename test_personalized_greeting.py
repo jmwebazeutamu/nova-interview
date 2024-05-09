@@ -1,26 +1,14 @@
 # test_personalized_greeting.py
-import unittest
-from io import StringIO
-import sys
+import pytest
 
-# Import the script to test
-import personalized_greeting
+from personalized_greeting import greet
 
-class TestPersonalizedGreeting(unittest.TestCase):
-    def test_output(self):
-        # Redirect stdout to capture print statements
-        capturedOutput = StringIO()
-        sys.stdout = capturedOutput
-        
-        # Running the function from personalized_greeting.py
-        personalized_greeting.myname = "Test Name"  # Overriding the myname variable for testing
-        personalized_greeting.print(f"Hello {personalized_greeting.myname}, welcome to computer programming.")
-        
-        # Reset redirect.
-        sys.stdout = sys.__stdout__
-        
-        # Check if the output is correct
-        self.assertEqual(capturedOutput.getvalue().strip(), "Hello Test Name, welcome to computer programming.")
-
-if __name__ == '__main__':
-    unittest.main()
+def test_personalized_greeting(capsys):  
+    
+    greet()
+    
+    # Capture the output from the print statement
+    captured = capsys.readouterr()  # Capture the output
+    
+    # Assert that the output is what we expect. Adjust this based on the actual content.
+    assert captured.out.strip() == "Hello Your Name Here, welcome to computer programming."
